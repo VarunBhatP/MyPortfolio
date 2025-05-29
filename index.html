@@ -134,6 +134,8 @@
     <section id="contact" class="contact animated-section">
         <h2>Contact Me</h2>
         <form id="contact-form" action="https://formspree.io/f/xdoqzqzq" method="POST">
+            <input type="hidden" name="_subject" value="New message from Portfolio">
+            <input type="hidden" name="_next" value="https://your-portfolio-url.vercel.app/thank-you.html">
             <input type="text" name="name" placeholder="Your Name" required>
             <input type="email" name="email" placeholder="Your Email" required>
             <textarea name="message" placeholder="Your Message" required></textarea>
