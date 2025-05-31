@@ -25,8 +25,8 @@ Welcome to my personal portfolio website! This website showcases my projects, sk
 
 ## Deployment
 
-This portfolio is deployed on Vercel:
-[![Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FVarunBhatP%2Fportfolio)
+This portfolio is deployed on Netlify:
+[![Netlify Status](https://api.netlify.com/api/v1/badges/YOUR_NETLIFY_SITE_ID/deploy-status)](https://app.netlify.com/sites/YOUR_SITE_NAME/overview)
 
 ## License
 
