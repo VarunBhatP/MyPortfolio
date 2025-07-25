@@ -1,62 +1,4 @@
-// Smooth scrolling for navigation links with offset for fixed header
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            const headerOffset = 80; // Height of your fixed header
-            const elementPosition = targetElement.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// Contact form handling with emailjs
-const contactForm = document.getElementById('contact-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
-            .then(() => {
-                showCustomModal('Message sent successfully!');
-                contactForm.reset();
-            }, (error) => {
-                showCustomModal('Something went wrong. Please try again.');
-                console.error('EmailJS Error:', error);
-            });
-    });
-}
-
-
-function showCustomModal(message) {
-    let modal = document.getElementById('custom-modal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'custom-modal';
-        modal.innerHTML = '<div class="modal-content"></div>';
-        document.body.appendChild(modal);
-    }
-    modal.querySelector('.modal-content').textContent = message;
-    modal.style.display = 'flex';
-    setTimeout(() => {
-        modal.style.opacity = 1;
-        setTimeout(() => {
-            modal.style.opacity = 0;
-            setTimeout(() => { modal.style.display = 'none'; }, 500);
-        }, 2500);
-    }, 10);
-}
-
-// Remove dark/light mode toggle and force dark mode with a blue-based palette
+// Initialize dark theme immediately
 function setTheme() {
     document.documentElement.style.setProperty('--primary-color', '#2563eb'); // blue-600
     document.documentElement.style.setProperty('--secondary-color', '#7c3aed'); // violet-600
@@ -71,29 +13,46 @@ function setTheme() {
 }
 setTheme();
 
-// Remove theme toggle button if present
+// Smooth scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Remove theme toggle if present
 const oldToggle = document.querySelector('.theme-toggle');
 if (oldToggle) oldToggle.remove();
 
-// Fix nav bar background on scroll for both themes
+// Scroll navbar background
 window.addEventListener('scroll', function() {
     const nav = document.querySelector('nav');
     if (window.scrollY > 50) {
-        if (document.body.classList.contains('dark')) {
-            nav.style.background = 'rgba(35, 39, 47, 0.95)';
-        } else {
-            nav.style.background = 'rgba(255,255,255,0.95)';
-        }
+        nav.style.background = document.body.classList.contains('dark')
+            ? 'rgba(35, 39, 47, 0.95)'
+            : 'rgba(255,255,255,0.95)';
     } else {
-        if (document.body.classList.contains('dark')) {
-            nav.style.background = 'rgba(35, 39, 47, 0.85)';
-        } else {
-            nav.style.background = 'rgba(255,255,255,0.85)';
-        }
+        nav.style.background = document.body.classList.contains('dark')
+            ? 'rgba(35, 39, 47, 0.85)'
+            : 'rgba(255,255,255,0.85)';
     }
 });
 
-// Animated background particles for hero section
+// Background particles
 const hero = document.querySelector('.hero');
 const canvas = document.createElement('canvas');
 canvas.className = 'hero-particles';
@@ -113,7 +72,7 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-const particles = Array.from({length: 40}, () => ({
+const particles = Array.from({ length: 40 }, () => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     r: Math.random() * 2 + 1,
@@ -139,15 +98,13 @@ function drawParticles() {
 }
 drawParticles();
 
-// Enhanced Intersection Observer for scroll animations
+// Intersection scroll animations
 const animateOnScroll = () => {
     const elements = document.querySelectorAll('.animated-section');
-    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate');
-                // Unobserve after animation to prevent re-triggering
                 observer.unobserve(entry.target);
             }
         });
@@ -157,25 +114,23 @@ const animateOnScroll = () => {
     });
 
     elements.forEach(element => {
-        // Don't observe elements that are already animated
         if (!element.classList.contains('animate')) {
             observer.observe(element);
         }
     });
 };
 
-// Initialize animations when DOM is loaded
+// On DOM loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Add animation to the hero section immediately
+    // Animate hero
     const heroSection = document.querySelector('.hero.animated-section');
     if (heroSection) {
         heroSection.classList.add('animate');
     }
-    
-    // Initialize scroll animations for other sections
+
     animateOnScroll();
-    
-    // Re-run animations on window resize to handle any layout changes
+
+    // Re-run on resize
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -188,18 +143,56 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, 250);
     });
-    
-    // Add hover effect for project cards
+
+    // Hover project cards
     const projectCards = document.querySelectorAll('.project-card');
     projectCards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.transform = 'translateY(-10px)';
             card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
         });
-        
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'translateY(0)';
             card.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         });
     });
+
+    // ✅ EmailJS contact form
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+                .then(() => {
+                    showCustomModal('Message sent successfully!');
+                    this.reset();
+                }, (error) => {
+                    showCustomModal('Failed to send message. Try again.');
+                    console.error('EmailJS Error:', error);
+                });
+        });
+    }
 });
+
+// Custom modal display
+function showCustomModal(message) {
+    let modal = document.getElementById('custom-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'custom-modal';
+        modal.innerHTML = '<div class="modal-content"></div>';
+        document.body.appendChild(modal);
+    }
+    modal.querySelector('.modal-content').textContent = message;
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.style.opacity = 1;
+        setTimeout(() => {
+            modal.style.opacity = 0;
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 500);
+        }, 2500);
+    }, 10);
+}
