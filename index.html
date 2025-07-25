@@ -122,9 +122,9 @@
                 </a>
             </div>
             <div class="project-card">
-                <h3>Job Skill Match Predictor</h3>
-                <p>A Django-based web app that helps college students discover the most suitable job roles based on their skills, project experience, and interests. The system intelligently matches users to relevant roles like Backend Developer, Data Analyst, UI/UX Designer, etc., and provides actionable learning paths or job listings. Built with Django and integrated with a basic ML-based recommendation engine, this app aims to guide students toward career-aligned growth and opportunities.</p>
-                <a href="https://github.com/VarunBhatP/Job-Skill-Match-Predictor" target="_blank" class="project-link">
+                <h3>SwiftWork: Real-Time Freelancing Platform</h3>
+                <p>A full-stack freelancing platform built to enable seamless job posting, bidding, and real-time collaboration between clients and freelancers. I developed the backend using Node.js, Express.js, and MongoDB, implementing secure JWT-based authentication and role-based access controls.The platform features real-time chat and video calls using WebSockets and WebRTC, reducing collaboration time by 80%. I optimized database queries to improve performance by 40% under load and worked closely with the frontend team to deliver a stable MVP with over 95% uptime during testing.</p>
+                <a href="https://github.com/VarunBhatP/SwiftWork-Nirvana-Legions.git" target="_blank" class="project-link">
                     <i class="fab fa-github"></i> View on GitHub
                 </a>
             </div>
@@ -153,5 +153,23 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  emailjs.init('3TpuUPYdX7-raQBlR'); // Replace with your EmailJS Public Key
+
+  document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    emailjs.sendForm('service_aal8sgp', 'template_bajhcd6', this)
+      .then(() => {
+        showCustomModal('Message sent successfully!');
+        this.reset();
+      }, (error) => {
+        showCustomModal('Something went wrong. Try again.');
+        console.error('FAILED...', error);
+      });
+  });
+</script>
+
 </body>
 </html>
