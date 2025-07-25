@@ -19,16 +19,23 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Contact form handling with custom modal
+// Contact form handling with emailjs
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        // Show custom modal
-        showCustomModal('Thank you for your message! I will get back to you soon.');
-        this.reset();
+
+        emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+            .then(() => {
+                showCustomModal('Message sent successfully!');
+                contactForm.reset();
+            }, (error) => {
+                showCustomModal('Something went wrong. Please try again.');
+                console.error('EmailJS Error:', error);
+            });
     });
 }
+
 
 function showCustomModal(message) {
     let modal = document.getElementById('custom-modal');
